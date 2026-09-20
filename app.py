@@ -42,9 +42,15 @@ def home():
         )
 
         connection.commit()
+
+        cursor.execute(
+            "SELECT * FROM tasks"
+        )
+
+        tasks = cursor.fetchall()
         connection.close()
 
-    return render_template("index.html")
+    return render_template("index.html",tasks=tasks)
 
     
     

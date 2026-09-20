@@ -29,6 +29,27 @@
 
             <button type="submit">Add Task</button>
         </form>
+
+        {% for task in tasks %}
+            <p>{{ task[1] }}</p>
+            <p>{{ task[2] }}</p>
+
+            {% if task[3]==1 %}
+                LOW
+            {% elif task[3]==2 %}
+                MEDIUM
+            {% else %}
+                HIGH
+            {% endif %}
+
+            <p>Due : {{task[4]}}</p>
+
+            {% if task[5] == 1 %}
+                status : Pending
+            {% else %}
+                status : Completed
+            {% endif %}
+        {% endfor %}
     </div>
 
     <div>
