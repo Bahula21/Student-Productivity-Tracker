@@ -1,5 +1,7 @@
 from flask import Flask, render_template,request, redirect
+from datetime import datetime
 import sqlite3
+
 
 app= Flask(__name__)
 
@@ -59,7 +61,10 @@ def home():
         "SELECT * FROM tasks"
     )
 
-    tasks = cursor.fetchall()
+    tasks = [list(task) for task in cursor.fetchall()]
+    for task in tasks:
+        if task[6]:
+            task[6] = datetime.strptime(task[6],"%Y-%m-%d %H:%M:%S.%f").strftime("%d %b %Y, %I:%M %p")
     connection.close()
 
     return render_template("index.html",tasks=tasks)
@@ -70,8 +75,10 @@ def complete_task(task_id):
     connection = get_db()
     cursor = connection.cursor()
 
+    completed_at = datetime.now()
+
     cursor.execute(
-        "UPDATE tasks SET status=2 WHERE id=?",(task_id,)
+        "UPDATE tasks SET status=2, completed_at=? WHERE id=?",(completed_at,task_id)
     )
 
     connection.commit()
