@@ -1,4 +1,4 @@
-from flask import Flask, render_template,request
+from flask import Flask, render_template,request, redirect
 import sqlite3
 
 app= Flask(__name__)
@@ -25,6 +25,14 @@ def init_db():
     connection.commit()
     connection.close()
 
+# connection = sqlite3.connect("tracker.db")
+# cursor = connection.cursor()
+
+# cursor.execute("DELETE FROM tasks WHERE id BETWEEN 7 AND 16")
+
+# connection.commit()
+# connection.close()
+
 @app.route("/", methods=["GET","POST"])
 def home():
 
@@ -46,7 +54,7 @@ def home():
 
     connection = get_db()
     cursor = connection.cursor()
-    
+
     cursor.execute(
         "SELECT * FROM tasks"
     )
@@ -57,7 +65,20 @@ def home():
     return render_template("index.html",tasks=tasks)
 
     
-    
+@app.route("/complete/<int:task_id>", methods=["POST"])
+def complete_task(task_id):
+    connection = get_db()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        "UPDATE tasks SET status=2 WHERE id=?",(task_id,)
+    )
+
+    connection.commit()
+    connection.close()
+
+    return redirect("/")
+
 
 init_db()
 

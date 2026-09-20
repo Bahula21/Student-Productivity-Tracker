@@ -38,7 +38,7 @@
                         <h3>{{ task[1] }}</h3>
                         <p class="task-subject">{{ task[2] }}</p>
 
-                        <p class="task-status">
+                        <p>
                             {% if task[3]==1 %}
                                 LOW
                             {% elif task[3]==2 %}
@@ -49,12 +49,19 @@
                         </p>
 
                         <p class="task-due">Due : {{task[4]}}</p>
+                        
+                        <p class="task-status">
+                            {% if task[5] == 1 %}
+                                status : Pending
+                            {% else %}
+                                status : Completed
+                            {% endif %}
+                        </p>
 
-                        {% if task[5] == 1 %}
-                            status : Pending
-                        {% else %}
-                            status : Completed
-                        {% endif %}
+                        <form method="POST" action="/complete/{{ task[0] }}">
+                            <button type="submit">Complete</button>
+                        </form>
+                        
                     </div>
                 {% endfor %}
             </div>
