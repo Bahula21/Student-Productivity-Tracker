@@ -1,0 +1,58 @@
+*{
+    margin:0;
+    padding:0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.tasks-heading {
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.task-form {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.task-form input,
+.task-form select {
+    padding: 8px;
+    margin: 5px 0 15px;
+}
+
+.task-form button {
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.task-card {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+}
+
+.task-card h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.task-card p {
+    margin: 6px 0;
+}
+
+.task-subject,
+.task-due {
+    color: #555;
+}
+
+.task-status {
+    font-weight: bold;
+}

@@ -4,52 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Productivity Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Student Productivity Tracker</h1>
+    <div class="conatiner">
+        <h1>Student Productivity Tracker</h1>
 
-    <div>
-        <h2>Tasks</h2>
-        <form method="POST">
-            <label>Task</label>
-            <input type="text" name="task">
+        <div>
+            <h2 class="tasks-heading">Tasks</h2>
+            <form method="POST" class="task-form">
+                <label>Task</label>
+                <input type="text" name="task">
 
-            <label>Subject</label>
-            <input type="text" name="subject">
+                <label>Subject</label>
+                <input type="text" name="subject">
 
-            <label>Priority</label>
-            <select name="priority">
-                <option value="1">Low</option>
-                <option value="2">Medium</option>
-                <option value="3">High</option>
-            </select>
+                <label>Priority</label>
+                <select name="priority">
+                    <option value="1">Low</option>
+                    <option value="2">Medium</option>
+                    <option value="3">High</option>
+                </select>
 
-            <label>Due Date</label>
-            <input type="date" name="due_date">
+                <label>Due Date</label>
+                <input type="date" name="due_date">
 
-            <button type="submit">Add Task</button>
-        </form>
+                <button type="submit">Add Task</button>
+            </form>
 
-        {% for task in tasks %}
-            <p>{{ task[1] }}</p>
-            <p>{{ task[2] }}</p>
+            <div class="task-list">
+                {% for task in tasks %}
+                    <div class="task-card">
+                        <h3>{{ task[1] }}</h3>
+                        <p class="task-subject">{{ task[2] }}</p>
 
-            {% if task[3]==1 %}
-                LOW
-            {% elif task[3]==2 %}
-                MEDIUM
-            {% else %}
-                HIGH
-            {% endif %}
+                        <p class="task-status">
+                            {% if task[3]==1 %}
+                                LOW
+                            {% elif task[3]==2 %}
+                                MEDIUM
+                            {% else %}
+                                HIGH
+                            {% endif %}
+                        </p>
 
-            <p>Due : {{task[4]}}</p>
+                        <p class="task-due">Due : {{task[4]}}</p>
 
-            {% if task[5] == 1 %}
-                status : Pending
-            {% else %}
-                status : Completed
-            {% endif %}
-        {% endfor %}
+                        {% if task[5] == 1 %}
+                            status : Pending
+                        {% else %}
+                            status : Completed
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
     </div>
 
     <div>
