@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Productivity Tracker</title>
+</head>
+<body>
+    <h1>Student Productivity Tracker</h1>
+
+    <div>
+        <h2>Tasks</h2>
+        <form method="POST">
+            <label>Task</label>
+            <input type="text" name="task">
+
+            <label>Subject</label>
+            <input type="text" name="subject">
+
+            <label>Priority</label>
+            <select name="priority">
+                <option value="1">Low</option>
+                <option value="2">Medium</option>
+                <option value="3">High</option>
+            </select>
+
+            <label>Due Date</label>
+            <input type="date" name="due_date">
+
+            <button type="submit">Add Task</button>
+        </form>
+    </div>
+
+    <div>
+        <h2>Study Sessions</h2>
+    </div>
+</body>
+</html>
