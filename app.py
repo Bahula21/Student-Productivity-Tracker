@@ -34,6 +34,16 @@ def home():
         priority = request.form["priority"]
         due_date = request.form["due_date"]
 
+        connection = get_db()
+        cursor = connection.cursor()
+
+        cursor.execute(
+            "INSERT INTO tasks (task, subject, priority, due_date) VALUES (?,?,?,?)", (task,subject,priority,due_date)
+        )
+
+        connection.commit()
+        connection.close()
+
     return render_template("index.html")
 
     
