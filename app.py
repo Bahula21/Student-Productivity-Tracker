@@ -69,6 +69,46 @@ def home():
 
     return render_template("index.html",tasks=tasks)
 
+@app.route("/edit/<int:task_id>", methods=["GET","POST"])
+def edit_task(task_id):
+
+    if request.method == "POST":
+        task = request.form["task"]
+        subject = request.form["subject"]
+        priority = request.form["priority"]
+        due_date = request.form["due_date"]
+
+        connection = get_db()
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            UPDATE tasks
+            SET task=?, subject=?, priority=?, due_date=?
+            WHERE id=?
+            """,
+            (task, subject, priority, due_date, task_id)
+        )
+
+        connection.commit()
+        connection.close()
+
+        return redirect("/")
+
+    connection = get_db()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        "SELECT * FROM tasks WHERE id=?",
+        (task_id,)
+    )
+
+    task = cursor.fetchone()
+
+    connection.close()
+
+    return render_template("edit.html", task=task)
+
     
 @app.route("/complete/<int:task_id>", methods=["POST"])
 def complete_task(task_id):
@@ -85,6 +125,8 @@ def complete_task(task_id):
     connection.close()
 
     return redirect("/")
+
+
 
 
 init_db()
