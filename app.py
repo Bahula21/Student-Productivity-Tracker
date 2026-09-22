@@ -40,6 +40,7 @@ def home():
 
     search = request.args.get("search", "")
     filter_subject = request.args.get("subject", "")
+    priority = request.args.get("priority", "")
     
     if request.method == "POST":
         task = request.form["task"]
@@ -60,26 +61,27 @@ def home():
     connection = get_db()
     cursor = connection.cursor()
 
-    if search and filter_subject:
-        cursor.execute(
-            "SELECT * FROM tasks WHERE task LIKE ? AND subject=?",
-            ("%" + search + "%", filter_subject)
-        )
+    conditions = []
+    values = []
 
-    elif search:
-        cursor.execute(
-            "SELECT * FROM tasks WHERE task LIKE ?",
-            ("%" + search + "%",)
-        )
+    if search:
+        conditions.append("task LIKE ?")
+        values.append("%" + search + "%")
 
-    elif filter_subject:
-        cursor.execute(
-            "SELECT * FROM tasks WHERE subject=?",
-            (filter_subject,)
-        )
+    if filter_subject:
+        conditions.append("subject = ?")
+        values.append(filter_subject)
 
+    if priority:
+        conditions.append("priority = ?")
+        values.append(priority)
+
+    if conditions:
+        query = "SELECT * FROM tasks WHERE " + " AND ".join(conditions)
+        cursor.execute(query, values)
     else:
         cursor.execute("SELECT * FROM tasks")
+
 
     tasks = [list(task) for task in cursor.fetchall()]
 
