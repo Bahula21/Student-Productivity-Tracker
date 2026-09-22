@@ -62,9 +62,19 @@ def home():
     )
 
     tasks = [list(task) for task in cursor.fetchall()]
+
+    today = datetime.now().date()
+
     for task in tasks:
         if task[6]:
             task[6] = datetime.strptime(task[6],"%Y-%m-%d %H:%M:%S.%f").strftime("%d %b %Y, %I:%M %p")
+        if task[4]:
+            due_date = datetime.strptime(task[4], "%Y-%m-%d").date()
+            if task[5] == 1 and due_date < today:
+                task.append(True)
+            else:
+                task.append(False)
+
     connection.close()
 
     return render_template("index.html",tasks=tasks)

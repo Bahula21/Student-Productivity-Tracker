@@ -49,6 +49,10 @@
                         </p>
 
                         <p class="task-due">Due : {{task[4]}}</p>
+
+                        {% if task[7] %}
+                            <p>⚠️ Overdue</p>
+                        {% endif %}
                         
                         <p class="task-status">
                             {% if task[5] == 1 %}
