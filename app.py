@@ -41,6 +41,7 @@ def home():
     search = request.args.get("search", "")
     filter_subject = request.args.get("subject", "")
     priority = request.args.get("priority", "")
+    status = request.args.get("status", "")
     
     if request.method == "POST":
         task = request.form["task"]
@@ -75,6 +76,10 @@ def home():
     if priority:
         conditions.append("priority = ?")
         values.append(priority)
+
+    if status:
+        conditions.append("status = ?")
+        values.append(status)
 
     if conditions:
         query = "SELECT * FROM tasks WHERE " + " AND ".join(conditions)
