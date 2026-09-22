@@ -38,6 +38,9 @@ def init_db():
 @app.route("/", methods=["GET","POST"])
 def home():
 
+    search = request.args.get("search", "")
+    filter_subject = request.args.get("subject", "")
+    
     if request.method == "POST":
         task = request.form["task"]
         subject = request.form["subject"]
@@ -57,11 +60,31 @@ def home():
     connection = get_db()
     cursor = connection.cursor()
 
-    cursor.execute(
-        "SELECT * FROM tasks"
-    )
+    if search and filter_subject:
+        cursor.execute(
+            "SELECT * FROM tasks WHERE task LIKE ? AND subject=?",
+            ("%" + search + "%", filter_subject)
+        )
+
+    elif search:
+        cursor.execute(
+            "SELECT * FROM tasks WHERE task LIKE ?",
+            ("%" + search + "%",)
+        )
+
+    elif filter_subject:
+        cursor.execute(
+            "SELECT * FROM tasks WHERE subject=?",
+            (filter_subject,)
+        )
+
+    else:
+        cursor.execute("SELECT * FROM tasks")
 
     tasks = [list(task) for task in cursor.fetchall()]
+
+    cursor.execute("SELECT DISTINCT subject FROM tasks WHERE subject IS NOT NULL AND subject != ''")
+    subjects = [row[0] for row in cursor.fetchall()]
 
     today = datetime.now().date()
 
@@ -77,7 +100,7 @@ def home():
 
     connection.close()
 
-    return render_template("index.html",tasks=tasks)
+    return render_template("index.html",tasks=tasks, subjects=subjects)
 
 @app.route("/edit/<int:task_id>", methods=["GET","POST"])
 def edit_task(task_id):
