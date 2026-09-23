@@ -105,9 +105,33 @@ def home():
             else:
                 task.append(False)
 
+    cursor.execute("SELECT COUNT(*) FROM tasks")
+    total_tasks = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM tasks WHERE status=1")
+    pending_tasks = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM tasks WHERE status=2")
+    completed_tasks = cursor.fetchone()[0]
+
+    cursor.execute(
+        "SELECT COUNT(*) FROM tasks WHERE status=1 AND due_date < ?",
+        (today,)
+    )
+
+    overdue_tasks = cursor.fetchone()[0]
+
     connection.close()
 
-    return render_template("index.html",tasks=tasks, subjects=subjects)
+    return render_template(
+        "index.html",
+        tasks=tasks,
+        subjects=subjects,
+        total_tasks=total_tasks,
+        pending_tasks=pending_tasks,
+        completed_tasks=completed_tasks,
+        overdue_tasks=overdue_tasks
+    )   
 
 @app.route("/edit/<int:task_id>", methods=["GET","POST"])
 def edit_task(task_id):

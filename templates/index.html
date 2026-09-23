@@ -43,6 +43,25 @@
                 <button type="submit">Search / Filter</button>
 
             </form>
+
+            <div class="stats-card">
+                <h3>Total Tasks</h3>
+                <p>{{ total_tasks }}</p>
+            </div>
+            <div class="stats-card">
+                <h3>Pending Tasks</h3>
+                <p>{{ pending_tasks }}</p>
+            </div>
+
+            <div class="stats-card">
+                <h3>Completed Tasks</h3>
+                <p>{{ completed_tasks }}</p>
+            </div>
+
+            <div class="stats-card">
+                <h3>Overdue Tasks</h3>
+                <p>{{ overdue_tasks }}</p>
+            </div>
             
             <h2 class="tasks-heading">Tasks</h2>
             <form method="POST" class="task-form">
