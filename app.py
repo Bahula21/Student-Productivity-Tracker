@@ -130,7 +130,12 @@ def home():
         total_tasks=total_tasks,
         pending_tasks=pending_tasks,
         completed_tasks=completed_tasks,
-        overdue_tasks=overdue_tasks
+        overdue_tasks=overdue_tasks,
+        filter_subject=filter_subject,
+        priority=priority,
+        status=status,
+        search=search
+
     )   
 
 @app.route("/edit/<int:task_id>", methods=["GET","POST"])
