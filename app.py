@@ -95,6 +95,10 @@ def home():
         query += " ORDER BY priority DESC"
     elif sort == "pri_low_high":
         query += " ORDER BY priority ASC"
+    elif sort == "newest":
+        query += " ORDER BY id DESC"
+    elif sort == "oldest":
+        query += "  ORDER BY id ASC"
 
     cursor.execute(query, values)
 
