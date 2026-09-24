@@ -27,41 +27,9 @@ def init_db():
     connection.commit()
     connection.close()
 
-# connection = sqlite3.connect("tracker.db")
-# cursor = connection.cursor()
-
-# cursor.execute("DELETE FROM tasks WHERE id BETWEEN 7 AND 16")
-
-# connection.commit()
-# connection.close()
-
-@app.route("/", methods=["GET","POST"])
-def home():
-
-    search = request.args.get("search", "")
-    filter_subject = request.args.get("subject", "")
-    priority = request.args.get("priority", "")
-    status = request.args.get("status", "")
-    sort = request.args.get("sort", "")
-    
-    if request.method == "POST":
-        task = request.form["task"]
-        subject = request.form["subject"]
-        priority = request.form["priority"]
-        due_date = request.form["due_date"]
-
-        connection = get_db()
-        cursor = connection.cursor()
-
-        cursor.execute(
-            "INSERT INTO tasks (task, subject, priority, due_date) VALUES (?,?,?,?)", (task,subject,priority,due_date)
-        )
-
-        connection.commit()
-        connection.close()
-
+def get_tasks(search, filter_subject, priority, status, sort):
     connection = get_db()
-    cursor = connection.cursor()
+    cursor=connection.cursor()
 
     conditions = []
     values = []
@@ -105,10 +73,47 @@ def home():
 
     tasks = [list(task) for task in cursor.fetchall()]
 
+    connection.close()
+
+    return tasks
+
+
+
+@app.route("/", methods=["GET","POST"])
+def home():
+
+    search = request.args.get("search", "")
+    filter_subject = request.args.get("subject", "")
+    priority = request.args.get("priority", "")
+    status = request.args.get("status", "")
+    sort = request.args.get("sort", "")
+    
+    if request.method == "POST":
+        task = request.form["task"]
+        subject = request.form["subject"]
+        priority = request.form["priority"]
+        due_date = request.form["due_date"]
+
+        connection = get_db()
+        cursor = connection.cursor()
+
+        cursor.execute(
+            "INSERT INTO tasks (task, subject, priority, due_date) VALUES (?,?,?,?)", (task,subject,priority,due_date)
+        )
+
+        connection.commit()
+        connection.close()
+
+    connection = get_db()
+    cursor = connection.cursor()
+
+    
     cursor.execute("SELECT DISTINCT subject FROM tasks WHERE subject IS NOT NULL AND subject != ''")
     subjects = [row[0] for row in cursor.fetchall()]
 
     today = datetime.now().date()
+
+    tasks = get_tasks(search, filter_subject, priority, status, sort)
 
     for task in tasks:
         if task[6]:
