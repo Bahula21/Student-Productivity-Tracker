@@ -149,7 +149,8 @@ def home():
         filter_subject=filter_subject,
         priority=priority,
         status=status,
-        search=search
+        search=search,
+        sort=sort
 
     )   
 

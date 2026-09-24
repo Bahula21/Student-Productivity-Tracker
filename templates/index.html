@@ -43,12 +43,12 @@
                 <label>Sort By</label>
                 <select name="sort">
                     <option value="">Default</option>
-                    <option value="due_asc">Due Date — Earliest First</option>
-                    <option value="due_desc">Due Date — Latest First</option>
-                    <option value="pri_high_low">Priority — High to Low</option>
-                    <option value="pri_low_high">Priority — Low to High</option>
-                    <option value="newest">Task — Newest</option>
-                    <option value="oldest">Task — Oldest</option>
+                    <option value="due_asc" {% if sort == "due_asc" %}selected{% endif %}>Due Date — Earliest First</option>
+                    <option value="due_desc" {% if sort == "due_desc" %}selected{% endif %}>Due Date — Latest First</option>
+                    <option value="pri_high_low" {% if sort == "pri_high_low" %}selected{% endif %}>Priority — High to Low</option>
+                    <option value="pri_low_high" {% if sort == "pri_low_high" %}selected{% endif %}>Priority — Low to High</option>
+                    <option value="newest" {% if sort == "newest" %}selected{% endif %}>Task — Newest</option>
+                    <option value="oldest" {% if sort == "oldest" %}selected{% endif %}>Task — Oldest</option>
                 </select>
 
                 <button type="submit">Search / Filter</button>
