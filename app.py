@@ -91,6 +91,10 @@ def home():
         query += " ORDER BY due_date ASC"
     elif sort == "due_desc":
         query += " ORDER BY due_date DESC"
+    elif sort == "pri_high_low":
+        query += " ORDER BY priority DESC"
+    elif sort == "pri_low_high":
+        query += " ORDER BY priority ASC"
 
     cursor.execute(query, values)
 
