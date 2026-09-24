@@ -42,6 +42,7 @@ def home():
     filter_subject = request.args.get("subject", "")
     priority = request.args.get("priority", "")
     status = request.args.get("status", "")
+    sort = request.args.get("sort", "")
     
     if request.method == "POST":
         task = request.form["task"]
@@ -83,9 +84,15 @@ def home():
 
     if conditions:
         query = "SELECT * FROM tasks WHERE " + " AND ".join(conditions)
-        cursor.execute(query, values)
     else:
-        cursor.execute("SELECT * FROM tasks")
+        query = "SELECT * FROM tasks"
+
+    if sort == "due_asc":
+        query += " ORDER BY due_date ASC"
+    elif sort == "due_desc":
+        query += " ORDER BY due_date DESC"
+
+    cursor.execute(query, values)
 
 
     tasks = [list(task) for task in cursor.fetchall()]

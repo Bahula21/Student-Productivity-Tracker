@@ -40,6 +40,13 @@
                     <option value="2" {% if status == "2" %}selected{% endif %}>Completed</option>
                 </select>
 
+                <label>Sort By</label>
+                <select name="sort">
+                    <option value="">Default</option>
+                    <option value="due_asc">Due Date — Earliest First</option>
+                    <option value="due_desc">Due Date — Latest First </option>
+                </select>
+
                 <button type="submit">Search / Filter</button>
                 <a href="/" class="clear-filters">Clear Filters</a>
 
