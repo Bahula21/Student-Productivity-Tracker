@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Sessions</title>
+</head>
+<body>
+    <h1>Study Sessions</h1>
+
+    <form method="POST">
+
+        <label>Subject</label>
+        <input type="text" name="subject" required>
+
+        <label>Topic</label>
+        <input type="text" name="topic" required>
+
+        <label>Duration (minutes)</label>
+        <input type="number" name="duration" min="1" required>
+
+        <label>Date</label>
+        <input type="date" name="date" required>
+
+        <button type="submit">Add Study Session</button>
+
+        <h2>Study Sessions</h2>
+
+        {% for session in sessions %}
+
+            <div>
+                <h3>{{ session[1] }}</h3>
+                <p>Topic: {{ session[2] }}</p>
+                <p>Duration: {{ session[3] }} minutes</p>
+                <p>Date: {{ session[4] }}</p>
+            </div>
+
+        {% endfor %}
+
+</form>
+</body>
+</html>

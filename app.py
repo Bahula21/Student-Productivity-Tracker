@@ -24,6 +24,16 @@ def init_db():
         )
     """)
 
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS study_sessions(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            subject TEXT,
+            topic TEXT,
+            duration INTEGER,
+            date DATE
+        )
+    """)
+
     connection.commit()
     connection.close()
 
@@ -158,6 +168,38 @@ def home():
         sort=sort
 
     )   
+
+@app.route("/study-sessions", methods=["GET","POST"])
+def study_sessions():
+    if request.method == "POST":
+        subject = request.form["subject"]
+        topic = request.form["topic"]
+        duration = request.form["duration"]
+        date = request.form["date"]
+
+        connection = get_db()
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            INSERT INTO study_sessions(subject,topic,duration,date) 
+            VALUES(?,?,?,?)
+            """,(subject,topic,duration,date)
+        )
+
+        connection.commit()
+        connection.close()
+
+    connection = get_db()
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT * FROM study_sessions")
+
+    sessions = cursor.fetchall()
+
+    connection.close()
+
+    return render_template("study_sessions.html",sessions=sessions)
 
 @app.route("/edit/<int:task_id>", methods=["GET","POST"])
 def edit_task(task_id):
