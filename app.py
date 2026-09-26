@@ -201,6 +201,21 @@ def study_sessions():
 
     return render_template("study_sessions.html",sessions=sessions)
 
+@app.route("/delete-session/<int:session_id>", methods=["POST"])
+def delete_session(session_id):
+    connection = get_db()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        "DELETE FROM study_sessions WHERE id=?",
+        (session_id,)
+    )
+
+    connection.commit()
+    connection.close()
+
+    return redirect("/study-sessions")
+
 @app.route("/edit/<int:task_id>", methods=["GET","POST"])
 def edit_task(task_id):
 
