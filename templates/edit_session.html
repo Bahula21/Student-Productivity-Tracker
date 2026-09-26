@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Study Session</title>
+</head>
+<body>
+    <h1>Edit Study Session</h1>
+
+    <form method="POST">
+
+        <label>Subject</label>
+        <input type="text" name="subject" value="{{ session[1] }}" required>
+
+        <label>Topic</label>
+        <input type="text" name="topic" value="{{ session[2] }}" required>
+
+        <label>Duration (minutes)</label>
+        <input type="number" name="duration" value="{{ session[3] }}" min="1" required>
+
+        <label>Date</label>
+        <input type="date" name="date" value="{{ session[4] }}" required>
+
+        <button type="submit">Save Changes</button>
+
+    </form>
+</body>
+</html>

@@ -216,6 +216,48 @@ def delete_session(session_id):
 
     return redirect("/study-sessions")
 
+
+@app.route("/edit-session/<int:session_id>", methods=["GET", "POST"])
+def edit_session(session_id):
+    if request.method == "POST":
+        subject = request.form["subject"]
+        topic = request.form["topic"]
+        duration = request.form["duration"]
+        date = request.form["date"]
+        connection = get_db()
+        cursor = connection.cursor()
+
+        connection = get_db()
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            UPDATE study_sessions
+            SET subject=?, topic=?, duration=?, date=?
+            WHERE id=?
+            """,
+            (subject, topic, duration, date, session_id)
+        )
+
+        connection.commit()
+        connection.close()
+
+        return redirect("/study-sessions")
+
+    connection = get_db()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        "SELECT * FROM study_sessions WHERE id=?",
+        (session_id,)
+    )
+
+    session = cursor.fetchone()
+
+    connection.close()
+
+    return render_template("edit_session.html", session=session)
+
 @app.route("/edit/<int:task_id>", methods=["GET","POST"])
 def edit_task(task_id):
 
