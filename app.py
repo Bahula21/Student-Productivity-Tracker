@@ -197,9 +197,21 @@ def study_sessions():
 
     sessions = cursor.fetchall()
 
+    total_duration = 0
+
+    for session in sessions:
+        total_duration += session[3]
+
+    total_hours = total_duration // 60
+    remaining_minutes = total_duration % 60
+
     connection.close()
 
-    return render_template("study_sessions.html",sessions=sessions)
+    return render_template(
+        "study_sessions.html",
+        sessions=sessions, 
+        total_hours=total_hours, 
+        remaining_minutes=remaining_minutes)
 
 @app.route("/delete-session/<int:session_id>", methods=["POST"])
 def delete_session(session_id):
