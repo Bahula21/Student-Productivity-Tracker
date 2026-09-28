@@ -193,8 +193,8 @@ def study_sessions():
     connection = get_db()
     cursor = connection.cursor()
 
-    cursor.execute("SELECT * FROM study_sessions")
-
+    cursor.execute("SELECT * FROM study_sessions ORDER BY date DESC")
+    
     sessions = cursor.fetchall()
 
     total_duration = 0
