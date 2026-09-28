@@ -194,8 +194,10 @@ def study_sessions():
     cursor = connection.cursor()
 
     cursor.execute("SELECT * FROM study_sessions ORDER BY date DESC")
-    
+
     sessions = cursor.fetchall()
+
+    total_sessions = len(sessions)
 
     total_duration = 0
 
@@ -211,7 +213,8 @@ def study_sessions():
         "study_sessions.html",
         sessions=sessions, 
         total_hours=total_hours, 
-        remaining_minutes=remaining_minutes)
+        remaining_minutes=remaining_minutes,
+        total_sessions=total_sessions)
 
 @app.route("/delete-session/<int:session_id>", methods=["POST"])
 def delete_session(session_id):
